@@ -1,0 +1,15 @@
+img {
+	width: 30%;
+	height: 45%;
+	border: 1px solid black;
+	float: left;
+	margin: 1%;
+}
+body {
+	background: #005599;
+}
+h1{
+	background: white;
+	width: 30%;
+	border-bottom: 2px solid gray; 
+}
