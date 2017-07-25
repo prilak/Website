@@ -1,5 +1,5 @@
 var mapArray = [];
-
+var play = [];
 function mapBuild(){
     loadPixels();
     var floorHeight = Math.floor(Math.random() * 20) + 400;
@@ -9,10 +9,12 @@ function mapBuild(){
             mapArray[j][i] = new Array(4);
             index = (j + width*i)*4;
             if(i>=floorHeight-4&&i<=floorHeight+4){
-                pixels[index+0]= Math.floor(Math.random() * 20);
-                pixels[index+1]= Math.floor(Math.random() * 20);
-                pixels[index+2]= Math.floor(Math.random() * 20);
-                mapArray[j][i]=[pixels[index+0],pixels[index+1],pixels[index+2],255];
+                pixels[index+0]= 0;
+                pixels[index+1]= 0;
+                pixels[index+2]= 0;
+                pixels[index+3]= Math.floor(Math.random() * 40)+120;;
+
+                mapArray[j][i]=[pixels[index+0],pixels[index+1],pixels[index+2],pixels[index+3]];
 
             }
             else if(i>=floorHeight-8&&i<=floorHeight+8){
@@ -20,7 +22,7 @@ function mapBuild(){
                 pixels[index+1]= 0;
                 pixels[index+2]= 0;
                 pixels[index+3]= Math.floor(Math.random() * 40)+180;
-                mapArray[j][i]=[pixels[index+0],pixels[index+1],pixels[index+2],255];
+                mapArray[j][i]=[pixels[index+0],pixels[index+1],pixels[index+2],pixels[index+3]];
 
 
             }
@@ -28,7 +30,8 @@ function mapBuild(){
                 pixels[index+0]= 0;
                 pixels[index+1]= 0;
                 pixels[index+2]= Math.floor(Math.random() * 50)+150;
-                mapArray[j][i]=[pixels[index+0],pixels[index+1],pixels[index+2],255];
+                pixels[index+3]= 255;
+                mapArray[j][i]=[pixels[index+0],pixels[index+1],pixels[index+2],pixels[index+3]];
 
             }
         }
@@ -39,6 +42,31 @@ function setup(){
     createCanvas(500, 500);
     pixelDensity(1);
     mapBuild();
+    play[0] = new Player(Math.floor(Math.random() * 50)+150, 80);
+    play[1] = new Player(Math.floor(Math.random() * 50)+50, 40);
+}
+function enemyChase(i){
+    
+    distance = play[0].xPos - play[i].xPos;
+    if(distance<0)distance*=-1;
+    if(distance <=4){}
+    else if(play[i].xPos<play[0].xPos){
+        play[i].xPos++;
+    }
+    else if(play[i].xPos>play[0].xPos){
+        play[i].xPos--;
+    }
+    
+}
+function playerMove(){
+    if(keyIsDown(LEFT_ARROW)){
+        play[0].speedX = -2;
+        play[0].xDir = -1;
+    }
+    if(keyIsDown(RIGHT_ARROW)){
+        play[0].speedX = 2;
+        play[0].xDir = 1;
+    }
 }
 function draw(){
     loadPixels();
@@ -53,29 +81,27 @@ function draw(){
         }
     }
     updatePixels();
-    var play = new Player(Math.floor(Math.random() * 50)+150, 80);
+    playerMove();
+    for(var i = 0; i < play.length; i++){
+        enemyChase(i);
+        play[i].move();
+        play[i].attack();
+    }
+   
 
-    //play.gravity();
-    var a = alert("wait");
+}
+function keyTyped(){
+
+}
+function keyPressed() {
+    if(keyCode === UP_ARROW){
+        play[0].speedY = -10;
+    }
+    if(keyCode === CONTROL){
+        play[0].attackInit = 1;
+    }
 }
 function gameMap(){
-//    background(200);
-    //for(var i = 0; i<500; i++){
-    //    for(var j = 0; j<width; j++){
-    //        pixels[j + width * j] = color(255,0,0);
-    //    }
-    //} 
     
-    
-//    var play = new Player(80, 80);
-    /*for(var i = 0; i<10; i++){
-        play.gravity();
-    }*/
-    //while(1){
-        //var game = setInterval(function(){play.gravity();},50);
-        //play.gravity();
-        //while(1){
 
-        //}    //play.gravity(5);
-    //}
 }
