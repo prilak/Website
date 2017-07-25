@@ -2,6 +2,8 @@ function Player(xPos, yPos){
 	this.xPos = xPos;
 	this.yPos = yPos;
 	this.mapPlaceHolder = [];
+	this.health = 100;
+	this.damage = 50;
 	rect(xPos, yPos, 20, 20);
 	this.speedY = 5;
 	this.speedX = 0;

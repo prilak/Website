@@ -47,8 +47,8 @@ function setup(){
 }
 function enemyChase(i){
     
-    distance = play[0].xPos - play[i].xPos;
-    if(distance<0)distance*=-1;
+    var distance = Math.abs(play[0].xPos - play[i].xPos);
+
     if(distance <=4){}
     else if(play[i].xPos<play[0].xPos){
         play[i].xPos++;
@@ -68,7 +68,7 @@ function playerMove(){
         play[0].xDir = 1;
     }
 }
-function draw(){
+function mapUpdate(){
     loadPixels();
     for(var j = 0; j<width; j++){
         for(var i = 0; i<height; i++){
@@ -81,12 +81,30 @@ function draw(){
         }
     }
     updatePixels();
+}
+function charactersAttack(){
+    if(play[0].attackInit>20&&play[0].attackInit<25){
+        for(var i = 1; i<play.length; i++){
+            var distance = Math.abs(play[0].xPos - play[i].xPos);
+            if(distance < 190){
+                play[i].health -= play[0].damage;
+                console.log(play[i].health);
+                if(play[i].health<=0){
+                 play.splice(i,1); 
+                }
+            }
+        }
+    }
+}
+function draw(){
+    mapUpdate();
     playerMove();
     for(var i = 0; i < play.length; i++){
         enemyChase(i);
         play[i].move();
         play[i].attack();
     }
+    charactersAttack();
    
 
 }
