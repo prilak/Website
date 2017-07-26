@@ -3,14 +3,12 @@ function Player(xPos, yPos){
 	this.yPos = yPos;
 	this.mapPlaceHolder = [];
 	this.health = 100;
-	this.damage = 50;
+	this.damage = 5;
 	rect(xPos, yPos, 20, 20);
 	this.speedY = 5;
 	this.speedX = 0;
 	this.xDir = 1;
 	this.attackInit = 0;
-	//this.attackTime = 0;
-	//this.attackDirection = 0;
 	this.moveDir = function (){
     	if(keyIsDown(LEFT_ARROW)){
     	    this.speedX = -2;
@@ -96,5 +94,18 @@ function Player(xPos, yPos){
 		}
 
 	}
- 
+ 	this.attackNpc = function(){
+    if(this.attackInit>20&&this.attackInit<25){
+        for(var i = 1; i<characters.length; i++){
+            var distance = this.xPos - characters[i].xPos;
+            if(((distance < 190)&&(distance > 0)&&(this.xDir==-1))||((distance > -190)&&(distance < 0)&&(this.xDir==1))){
+                characters[i].health -= this.damage;
+                console.log(characters[i].health);
+                if(characters[i].health<=0){
+                 characters.splice(i,1); 
+                }
+            }
+        }
+    }
+}
 }
