@@ -11,6 +11,16 @@ function Player(xPos, yPos){
 	this.attackInit = 0;
 	//this.attackTime = 0;
 	//this.attackDirection = 0;
+	this.moveDir = function (){
+    	if(keyIsDown(LEFT_ARROW)){
+    	    this.speedX = -2;
+    	    this.xDir = -1;
+    	}
+    	if(keyIsDown(RIGHT_ARROW)){
+    	    this.speedX = 2;
+    	    this.xDir = 1;
+    	}
+	}
 	this.move = function(){
 		this.moveX();
 		this.moveY();
@@ -30,7 +40,7 @@ function Player(xPos, yPos){
 				for(var j = 0; j < this.speedY; j++){
 					var yCheck = this.yPos + 20 + j;
 					
-					if(mapArray[xCheck][yCheck][3] >= 120 && mapArray[xCheck][yCheck][3] <= 160){
+					if(maps[0].array[xCheck][yCheck][3] >= 120 && maps[0].array[xCheck][yCheck][3] <= 160){
 						this.speedY = j;
 					}
 				}
@@ -49,21 +59,40 @@ function Player(xPos, yPos){
 	this.attack = function(){
 		if(this.attackInit!=0){
 			this.attackInit++;
-			if(this.attackInit<10){
-				rect(this.xPos+10, this.yPos+6, 25, 4);
+			if(this.xDir==1){
+				if(this.attackInit<10){
+					rect(this.xPos+10, this.yPos+6, 25, 4);
+				}
+				else if(this.attackInit<20){
+					rect(this.xPos+10, this.yPos+8, 30, 4);
+				}
+				else if(this.attackInit<25){
+					rect(this.xPos+10, this.yPos+10, 190, 4);
+				}
+				else if(this.attackInit<35){
+					rect(this.xPos+10, this.yPos+8, 30, 4);
+				}
+				else {
+					this.attackInit = 0;
+				}
+			} else {
+				if(this.attackInit<10){
+					rect(this.xPos-15, this.yPos+6, 25, 4);
+				}
+				else if(this.attackInit<20){
+					rect(this.xPos-20, this.yPos+8, 30, 4);
+				}
+				else if(this.attackInit<25){
+					rect(this.xPos-170, this.yPos+10, 190, 4);
+				}
+				else if(this.attackInit<35){
+					rect(this.xPos-20, this.yPos+8, 30, 4);
+				}
+				else {
+					this.attackInit = 0;
+				}
 			}
-			else if(this.attackInit<20){
-				rect(this.xPos+10, this.yPos+8, 30, 4);
-			}
-			else if(this.attackInit<25){
-				rect(this.xPos+10, this.yPos+10, 190, 4);
-			}
-			else if(this.attackInit<35){
-				rect(this.xPos+10, this.yPos+8, 30, 4);
-			}
-			else {
-				this.attackInit = 0;
-			}
+
 		}
 
 	}
